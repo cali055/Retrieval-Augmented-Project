@@ -179,21 +179,287 @@ Open `http://localhost:3001`, create an account, and configure the Langfuse API 
 ## Project Structure
 
 ```text
-src/
-└── services/
-    └── agents/
-        ├── agentic_rag.py
-        ├── config.py
-        ├── context.py
-        ├── models.py
-        ├── prompts.py
-        ├── state.py
-        ├── tools.py
-        └── nodes/
-            ├── guardrail_node.py
-            ├── retrieve_node.py
-            ├── grade_documents_node.py
-            ├── rewrite_query_node.py
-            ├── generate_answer_node.py
-            └── out_of_scope_node.py
+  Download size: 53.5 kB
+  Space needed: 125 kB / 1008 GB available
+
+Get:1 http://archive.ubuntu.com/ubuntu resolute/universe amd64 tree amd64 2.3.1-1 [53.5 kB]
+Fetched 53.5 kB in 0s (186 kB/s)
+Selecting previously unselected package tree.
+(Reading database ... 35901 files and directories currently installed.)
+Preparing to unpack .../tree_2.3.1-1_amd64.deb ...
+Unpacking tree (2.3.1-1) ...
+Setting up tree (2.3.1-1) ...
+Processing triggers for man-db (2.13.1-1build1) ...
+ashwin@Ashwin:~$ cd arxiv-paper-curator
+ashwin@Ashwin:~/arxiv-paper-curator$ tree
+.
+├── Dockerfile
+├── Makefile
+├── README.md
+├── airflow
+│   ├── Dockerfile
+│   ├── README.md
+│   ├── dags
+│   │   ├── arxiv_ingestion
+│   │   │   ├── __init__.py
+│   │   │   ├── common.py
+│   │   │   ├── fetching.py
+│   │   │   ├── indexing.py
+│   │   │   ├── reporting.py
+│   │   │   └── setup.py
+│   │   ├── arxiv_paper_ingestion.py
+│   │   └── hello_world_dag.py
+│   ├── entrypoint.sh
+│   ├── plugins
+│   └── requirements-airflow.txt
+├── compose.yml
+├── gradio_launcher.py
+├── notebooks
+│   └── agentic_rag_demo.ipynb
+├── pyproject.toml
+├── src
+│   ├── __pycache__
+│   │   ├── config.cpython-312.pyc
+│   │   ├── dependencies.cpython-312.pyc
+│   │   ├── exceptions.cpython-312.pyc
+│   │   └── main.cpython-312.pyc
+│   ├── config.py
+│   ├── database.py
+│   ├── db
+│   │   ├── __init__.py
+│   │   ├── __pycache__
+│   │   │   ├── __init__.cpython-312.pyc
+│   │   │   └── factory.cpython-312.pyc
+│   │   ├── factory.py
+│   │   └── interfaces
+│   │       ├── __init__.py
+│   │       ├── __pycache__
+│   │       │   ├── __init__.cpython-312.pyc
+│   │       │   ├── base.cpython-312.pyc
+│   │       │   └── postgresql.cpython-312.pyc
+│   │       ├── base.py
+│   │       └── postgresql.py
+│   ├── dependencies.py
+│   ├── exceptions.py
+│   ├── gradio_app.py
+│   ├── main.py
+│   ├── middlewares.py
+│   ├── models
+│   │   ├── __init__.py
+│   │   └── paper.py
+│   ├── repositories
+│   │   ├── __init__.py
+│   │   └── paper.py
+│   ├── routers
+│   │   ├── __init__.py
+│   │   ├── __pycache__
+│   │   │   ├── __init__.cpython-312.pyc
+│   │   │   ├── agentic_ask.cpython-312.pyc
+│   │   │   ├── ask.cpython-312.pyc
+│   │   │   ├── hybrid_search.cpython-312.pyc
+│   │   │   └── ping.cpython-312.pyc
+│   │   ├── agentic_ask.py
+│   │   ├── ask.py
+│   │   ├── hybrid_search.py
+│   │   └── ping.py
+│   ├── schemas
+│   │   ├── __init__.py
+│   │   ├── __pycache__
+│   │   │   ├── __init__.cpython-312.pyc
+│   │   │   └── ollama.cpython-312.pyc
+│   │   ├── api
+│   │   │   ├── __init__.py
+│   │   │   ├── __pycache__
+│   │   │   │   ├── __init__.cpython-312.pyc
+│   │   │   │   ├── ask.cpython-312.pyc
+│   │   │   │   ├── health.cpython-312.pyc
+│   │   │   │   └── search.cpython-312.pyc
+│   │   │   ├── ask.py
+│   │   │   ├── health.py
+│   │   │   └── search.py
+│   │   ├── arxiv
+│   │   │   ├── __init__.py
+│   │   │   ├── __pycache__
+│   │   │   │   ├── __init__.cpython-312.pyc
+│   │   │   │   └── paper.cpython-312.pyc
+│   │   │   └── paper.py
+│   │   ├── common
+│   │   │   └── __init__.py
+│   │   ├── database
+│   │   │   ├── __init__.py
+│   │   │   ├── __pycache__
+│   │   │   │   ├── __init__.cpython-312.pyc
+│   │   │   │   └── config.cpython-312.pyc
+│   │   │   └── config.py
+│   │   ├── embeddings
+│   │   │   ├── __init__.py
+│   │   │   ├── __pycache__
+│   │   │   │   ├── __init__.cpython-312.pyc
+│   │   │   │   └── jina.cpython-312.pyc
+│   │   │   └── jina.py
+│   │   ├── indexing
+│   │   │   ├── __init__.py
+│   │   │   └── models.py
+│   │   ├── ollama.py
+│   │   ├── pdf_parser
+│   │   │   ├── __init__.py
+│   │   │   ├── __pycache__
+│   │   │   │   ├── __init__.cpython-312.pyc
+│   │   │   │   └── models.cpython-312.pyc
+│   │   │   └── models.py
+│   │   └── telegram
+│   │       └── __init__.py
+│   └── services
+│       ├── __init__.py
+│       ├── __pycache__
+│       │   └── __init__.cpython-312.pyc
+│       ├── agents
+│       │   ├── __init__.py
+│       │   ├── __pycache__
+│       │   │   ├── __init__.cpython-312.pyc
+│       │   │   ├── agentic_rag.cpython-312.pyc
+│       │   │   ├── config.cpython-312.pyc
+│       │   │   ├── context.cpython-312.pyc
+│       │   │   ├── factory.cpython-312.pyc
+│       │   │   ├── models.cpython-312.pyc
+│       │   │   ├── prompts.cpython-312.pyc
+│       │   │   ├── state.cpython-312.pyc
+│       │   │   └── tools.cpython-312.pyc
+│       │   ├── agentic_rag.py
+│       │   ├── config.py
+│       │   ├── context.py
+│       │   ├── factory.py
+│       │   ├── models.py
+│       │   ├── nodes
+│       │   │   ├── __init__.py
+│       │   │   ├── __pycache__
+│       │   │   │   ├── __init__.cpython-312.pyc
+│       │   │   │   ├── generate_answer_node.cpython-312.pyc
+│       │   │   │   ├── grade_documents_node.cpython-312.pyc
+│       │   │   │   ├── guardrail_node.cpython-312.pyc
+│       │   │   │   ├── out_of_scope_node.cpython-312.pyc
+│       │   │   │   ├── retrieve_node.cpython-312.pyc
+│       │   │   │   ├── rewrite_query_node.cpython-312.pyc
+│       │   │   │   ├── store_source_node.cpython-312.pyc
+│       │   │   │   └── utils.cpython-312.pyc
+│       │   │   ├── generate_answer_node.py
+│       │   │   ├── grade_documents_node.py
+│       │   │   ├── guardrail_node.py
+│       │   │   ├── out_of_scope_node.py
+│       │   │   ├── retrieve_node.py
+│       │   │   ├── rewrite_query_node.py
+│       │   │   ├── store_source_node.py
+│       │   │   └── utils.py
+│       │   ├── prompts.py
+│       │   ├── state.py
+│       │   └── tools.py
+│       ├── arxiv
+│       │   ├── __pycache__
+│       │   │   ├── client.cpython-312.pyc
+│       │   │   └── factory.cpython-312.pyc
+│       │   ├── client.py
+│       │   └── factory.py
+│       ├── cache
+│       │   ├── __pycache__
+│       │   │   ├── client.cpython-312.pyc
+│       │   │   └── factory.cpython-312.pyc
+│       │   ├── client.py
+│       │   └── factory.py
+│       ├── embeddings
+│       │   ├── __init__.py
+│       │   ├── __pycache__
+│       │   │   ├── __init__.cpython-312.pyc
+│       │   │   ├── factory.cpython-312.pyc
+│       │   │   └── jina_client.cpython-312.pyc
+│       │   ├── factory.py
+│       │   └── jina_client.py
+│       ├── indexing
+│       │   ├── __init__.py
+│       │   ├── factory.py
+│       │   ├── hybrid_indexer.py
+│       │   └── text_chunker.py
+│       ├── langfuse
+│       │   ├── __init__.py
+│       │   ├── __pycache__
+│       │   │   ├── __init__.cpython-312.pyc
+│       │   │   ├── client.cpython-312.pyc
+│       │   │   ├── factory.cpython-312.pyc
+│       │   │   └── tracer.cpython-312.pyc
+│       │   ├── client.py
+│       │   ├── factory.py
+│       │   └── tracer.py
+│       ├── metadata_fetcher.py
+│       ├── ollama
+│       │   ├── __init__.py
+│       │   ├── __pycache__
+│       │   │   ├── __init__.cpython-312.pyc
+│       │   │   ├── client.cpython-312.pyc
+│       │   │   ├── factory.cpython-312.pyc
+│       │   │   └── prompts.cpython-312.pyc
+│       │   ├── client.py
+│       │   ├── factory.py
+│       │   ├── prompts
+│       │   │   └── rag_system.txt
+│       │   └── prompts.py
+│       ├── opensearch
+│       │   ├── __init__.py
+│       │   ├── __pycache__
+│       │   │   ├── __init__.cpython-312.pyc
+│       │   │   ├── client.cpython-312.pyc
+│       │   │   ├── factory.cpython-312.pyc
+│       │   │   ├── index_config_hybrid.cpython-312.pyc
+│       │   │   └── query_builder.cpython-312.pyc
+│       │   ├── client.py
+│       │   ├── factory.py
+│       │   ├── index_config_hybrid.py
+│       │   └── query_builder.py
+│       ├── pdf_parser
+│       │   ├── __pycache__
+│       │   │   ├── docling.cpython-312.pyc
+│       │   │   ├── factory.cpython-312.pyc
+│       │   │   └── parser.cpython-312.pyc
+│       │   ├── docling.py
+│       │   ├── factory.py
+│       │   └── parser.py
+│       └── telegram
+│           ├── __init__.py
+│           ├── __pycache__
+│           │   ├── __init__.cpython-312.pyc
+│           │   ├── bot.cpython-312.pyc
+│           │   └── factory.cpython-312.pyc
+│           ├── bot.py
+│           └── factory.py
+├── tests
+│   ├── __init__.py
+│   ├── api
+│   │   ├── __init__.py
+│   │   ├── conftest.py
+│   │   └── routers
+│   │       ├── test_agentic_ask.py
+│   │       ├── test_ask.py
+│   │       ├── test_hybrid_search.py
+│   │       └── test_ping.py
+│   ├── conftest.py
+│   ├── integration
+│   │   ├── __init__.py
+│   │   └── test_services.py
+│   └── unit
+│       ├── __init__.py
+│       ├── schemas
+│       │   ├── __init__.py
+│       │   └── test_search.py
+│       ├── services
+│       │   ├── agents
+│       │   │   ├── __init__.py
+│       │   │   ├── test_agentic_rag.py
+│       │   │   ├── test_models.py
+│       │   │   ├── test_nodes.py
+│       │   │   └── test_tools.py
+│       │   ├── test_arxiv_client.py
+│       │   ├── test_metadata_fetcher.py
+│       │   ├── test_opensearch_query_builder.py
+│       │   ├── test_pdf_parser.py
+│       │   └── test_telegram.py
+│       └── test_config.py
+└── uv.lock
 ```
